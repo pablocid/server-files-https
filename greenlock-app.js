@@ -10,5 +10,5 @@ require('greenlock-express').create({
     , app: require('./index.js')
     , store: require('greenlock-store-fs')
     , communityMember: true
-    //, debug: true
+    , debug: process.env.DEBUG_HTTPS
 }).listen(80, 443);

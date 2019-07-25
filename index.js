@@ -54,7 +54,7 @@ const apiKeyHandler = (req, res, next) => {
     }
 
 }
-app.use(apiKeyHandler);
+//app.use(apiKeyHandler);
 
 // enable CORS
 app.use(cors());

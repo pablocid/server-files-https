@@ -11,4 +11,4 @@ require('greenlock-express').create({
     , store: require('greenlock-store-fs')
     , communityMember: true
     //, debug: true
-}).listen(process.env.SECUREPORT);
+}).listen(80, 443);

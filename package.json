@@ -14,6 +14,7 @@
     "express": "^4.17.1",
     "greenlock": "^2.8.2",
     "greenlock-express": "^2.7.11",
+    "greenlock-store-fs": "^3.0.2",
     "jsonwebtoken": "^8.5.1"
   }
 }

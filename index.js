@@ -26,6 +26,12 @@ const verifyOptions = {
     algorithm: ["RS256"]
 };
 
+// ACME Challenge Handlers
+var leHttpChallenge = require('le-challenge-fs').create({
+    webrootPath: './webrootPath'                              // or template string such as
+  , debug: false                                            // '/srv/www/:hostname/.well-known/acme-challenge'
+  });
+
 // setting the enviromental variables
 const PORT = process.env.PORT;
 const APIKEY = process.env.APIKEY;
@@ -34,7 +40,7 @@ const SERVER_NAME = process.env.SERVER_NAME || "Unknown server";
 // api hashmap
 const apiKeys = new Map();
 apiKeys.set(APIKEY, { id: 1, name: 'Api key USER' });
-
+app.use('/.well-known', express.static('.well-known'));
 // middleware for checking the apikey
 const apiKeyHandler = (req, res, next) => {
     if (!req.query.apikey && !req.query.token) { res.status(401).send('Forbidden access'); return; }

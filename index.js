@@ -26,12 +26,6 @@ const verifyOptions = {
     algorithm: ["RS256"]
 };
 
-// ACME Challenge Handlers
-var leHttpChallenge = require('le-challenge-fs').create({
-    webrootPath: './webrootPath'                              // or template string such as
-  , debug: false                                            // '/srv/www/:hostname/.well-known/acme-challenge'
-  });
-
 // setting the enviromental variables
 const PORT = process.env.PORT;
 const APIKEY = process.env.APIKEY;

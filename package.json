@@ -16,6 +16,7 @@
     "greenlock-express": "^2.7.11",
     "greenlock-store-fs": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
-    "le-challenge-fs": "^2.0.9"
+    "le-challenge-fs": "^2.0.9",
+    "le-store-certbot": "^2.2.3"
   }
 }

@@ -6,7 +6,7 @@ require('greenlock-express').create({
     , email: process.env.EMAIL    // CHANGE THIS
     , agreeTos: true
     , approveDomains: [process.env.DOMAIN]              // CHANGE THIS
-    , configDir: process.env.CERT_DIR
+    , configDir: homedir
     , app: require('./index.js')
     , store: require('greenlock-store-fs')
     , communityMember: true

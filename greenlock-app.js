@@ -3,7 +3,7 @@ require('greenlock-express').create({
 
     version: 'draft-11'
     , server: process.env.STAGE  // staging
-    , email: 'john.doe@localhost'                                     // CHANGE THIS
+    , email: process.env.EMAIL    // CHANGE THIS
     , agreeTos: true
     , approveDomains: [process.env.DOMAIN]              // CHANGE THIS
     , configDir: homedir

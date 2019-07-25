@@ -7,11 +7,18 @@ require('greenlock-express').create({
     , agreeTos: true
     , approveDomains: [process.env.DOMAIN]              // CHANGE THIS
     , store: require("le-store-certbot").create({
-        configDir: require("path").join(require("os").homedir(), "acme", "etc"),
+        configDir: "./",
         webrootPath: "./webrootPath"
     })
     , app: require('./index.js')
     , store: require('greenlock-store-fs')
     , communityMember: true
     , debug: process.env.DEBUG_HTTPS
-}).listen(80, 443);
+}).listen(
+    80,
+    443, function (a) {
+        console.log("80: ", a);
+    },
+    function (a) {
+        console.log("443: ", a);
+    });

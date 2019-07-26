@@ -1,7 +1,8 @@
 const express = require('express');
+const proxy = require('express-http-proxy');
 const { readFileSync } = require('fs');
 const { sign, verify } = require('jsonwebtoken');
-var cors = require('cors');
+const cors = require('cors');
 const privateKEY = readFileSync('./private.key', 'utf8');
 const publicKEY = readFileSync('./public.key', 'utf8');
 const app = express();
@@ -29,12 +30,12 @@ const verifyOptions = {
 // setting the enviromental variables
 const PORT = process.env.PORT;
 const APIKEY = process.env.APIKEY;
-const SERVER_NAME = process.env.SERVER_NAME || "Unknown server";
+const SERVER_NAME = process.env.SERVER_NAME_LABEL || "Unknown server";
 
 // api hashmap
 const apiKeys = new Map();
 apiKeys.set(APIKEY, { id: 1, name: 'Api key USER' });
-app.use('/.well-known', express.static('.well-known'));
+app.use('/.well-known', express.static('webrootPath/well-known'));
 // middleware for checking the apikey
 const apiKeyHandler = (req, res, next) => {
     if (!req.query.apikey && !req.query.token) { res.status(401).send('Forbidden access'); return; }
@@ -54,7 +55,14 @@ const apiKeyHandler = (req, res, next) => {
     }
 
 }
-//app.use(apiKeyHandler);
+// app.use(apiKeyHandler);
+
+app.use('/ameba00/files', proxy('192.168.1.100:8080'));
+app.use('/ameba00/files-node', proxy('192.168.1.100:8081'));
+app.use('/supertanker/files', proxy('192.168.1.101:8080'));
+app.use('/supertanker/files-node', proxy('192.168.1.101:8081'));
+app.use('/ilyushin/files', proxy('192.168.1.102:8080'));
+app.use('/ilyushin/files-node', proxy('192.168.1.102:8081'));
 
 // enable CORS
 app.use(cors());
@@ -62,7 +70,7 @@ app.use(cors());
 const payload = { server: SERVER_NAME };
 
 const foldertoServePath = process.env.FOLDERPATH;
- 
+
 app.use('/files', express.static(foldertoServePath));
 
 app.get('/login', function (req, res) {
@@ -70,8 +78,10 @@ app.get('/login', function (req, res) {
     res.send(sign({ ...payload, from: 'Local server testing ..' }, privateKEY, signOptions));
 });
 app.get('/is-logged', function (req, res) {
-    res.json({ payload: req.jwtPayload, authType: req.authType, hola: "oliasflksajdfl" });
+    res.json({ payload: req.jwtPayload, authType: req.authType, hola: "for testing" });
 });
 app.listen(PORT, () => {
-    console.log(`MemoryApp listening on port ${PORT}!`);
+    console.log(`Server File Https App listening on port ${PORT}!`);
 });
+
+module.exports = app;

@@ -1,24 +1,15 @@
-var homedir = require('path').join(require('os').homedir());
-require('greenlock-express').create({
-
-    version: 'draft-11'
-    , server: process.env.STAGE  // staging
-    , email: process.env.EMAIL    // CHANGE THIS
-    , agreeTos: true
-    , approveDomains: [process.env.DOMAIN]              // CHANGE THIS
-    , store: require("le-store-certbot").create({
-        configDir: "./",
-        webrootPath: "./webrootPath"
+require('greenlock-express')
+    .create({
+        version: 'draft-11',
+        server: process.env.PROD === "YES" ? "https://acme-v02.api.letsencrypt.org/directory" : "https://acme-staging-v02.api.letsencrypt.org/directory",
+        email: process.env.EMAIL,
+        servername: process.env.SERVERNAME,
+        agreeTos: true,
+        configDir: './certs',
+        approveDomains: [process.env.DOMAIN],
+        challenges: { 'http-01': require('le-challenge-fs').create({ webrootPath: './webrootPath/well-known/acme-challenge' }) },
+        store: require('le-store-certbot').create({ webrootPath: './webrootPath/well-known/acme-challenge' }),
+        app: require('./index.js'),
+        debug: process.env.DEBUG_HTTPS
     })
-    , app: require('./index.js')
-    , store: require('greenlock-store-fs')
-    , communityMember: true
-    , debug: process.env.DEBUG_HTTPS
-}).listen(
-    80,
-    443, function (a) {
-        console.log("80: ", a);
-    },
-    function (a) {
-        console.log("443: ", a);
-    });
+    .listen(80, 443);

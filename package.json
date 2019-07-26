@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-http-proxy": "^1.5.1",
     "greenlock": "^2.8.2",
     "greenlock-express": "^2.7.11",
     "greenlock-store-fs": "^3.0.2",

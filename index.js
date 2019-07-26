@@ -55,7 +55,9 @@ const apiKeyHandler = (req, res, next) => {
     }
 
 }
-// app.use(apiKeyHandler);
+if(process.env.PROD === "YES"){
+   app.use(apiKeyHandler); 
+}
 
 app.use('/ameba00/files', proxy('192.168.1.100:8080'));
 app.use('/ameba00/files-node', proxy('192.168.1.100:8081'));
@@ -68,10 +70,6 @@ app.use('/ilyushin/files-node', proxy('192.168.1.102:8081'));
 app.use(cors());
 
 const payload = { server: SERVER_NAME };
-
-const foldertoServePath = process.env.FOLDERPATH;
-
-app.use('/files', express.static(foldertoServePath));
 
 app.get('/login', function (req, res) {
     if (req.authType !== 'apikey') { res.send('loggin forbidden'); }

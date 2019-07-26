@@ -38,7 +38,7 @@ const SERVER_NAME = process.env.SERVER_NAME_LABEL || "Unknown server";
 const apiKeys = new Map();
 apiKeys.set(APIKEY, { id: 1, name: 'Api key USER' });
 
-app.use('/.well-known', express.static('webrootPath/well-known'));
+app.use('/.well-known', express.static('./webrootPath/well-known'));
 // middleware for checking the apikey
 
 const apiKeyHandler = (req, res, next) => {

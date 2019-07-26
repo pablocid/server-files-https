@@ -6,3 +6,4 @@ private.key
 public.key
 certs/*
 webrootPath/*
+envs/

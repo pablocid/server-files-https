@@ -60,6 +60,7 @@ try {
     console.log("testing before");
     const paths = JSON.parse(process.env.PROXIES_PATHS);
     if (Array.isArray(paths)) {
+        console.log("IS ARRAY YEEE", paths);
         paths.forEach(x => app.use(x.path, proxy(x.url)));
     } else {
         throw "Error";

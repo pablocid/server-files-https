@@ -54,14 +54,19 @@ const apiKeyHandler = (req, res, next) => {
     }
 
 }
-app.use(apiKeyHandler);
+// app.use(apiKeyHandler);
 
-app.use('/ameba00/files', proxy('192.168.1.100:8080'));
-app.use('/ameba00/files-node', proxy('192.168.1.100:8081'));
-app.use('/supertanker/files', proxy('192.168.1.101:8080'));
-app.use('/supertanker/files-node', proxy('192.168.1.101:8081'));
-app.use('/ilyushin/files', proxy('192.168.1.102:8080'));
-app.use('/ilyushin/files-node', proxy('192.168.1.102:8081'));
+try {
+    console.log("testing before");
+    const paths = JSON.parse(process.env.PROXIES_PATHS);
+    if (Array.isArray(paths)) {
+        paths.forEach(x => app.use(x.path, proxy(x.url)));
+    } else {
+        throw "Error";
+    }
+} catch (error) {
+    console.log(" NO proxy path found")
+}
 
 const payload = { server: SERVER_NAME };
 
